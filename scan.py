@@ -400,7 +400,7 @@ if __name__ == '__main__':
 		#dbg msg(s)
 		print ' no args:   will scan entire file system'
 		print ' -l         will scan just loaded processes\n'
-
+		print ' -p <path>  will scan provided path\n'
 		#bail
 		sys.exit(0)
 
@@ -412,16 +412,25 @@ if __name__ == '__main__':
 
 	#check for -l flag
 	# ->indicates scan of just loaded processes
-	if 2 == len(sys.argv) and '-l' == sys.argv[1]:
+	if 2 <= len(sys.argv):
+		if '-l' == sys.argv[1]:
 
-		#dbg msg
-		print 'getting list of loaded (running) processes...'
+			#dbg msg
+			print 'getting list of loaded (running) processes...'
 
-		#get list of loaded binaries
-		binaries = loadedBinaries()
+			#get list of loaded binaries
+			binaries = loadedBinaries()
+		
+		if '-p' == sys.argv[1]:
+			
+			path=sys.argv[2]
+			
+			#dbg msg
+			print 'getting list of all process executables into ' + path
 
-	#get list of *all* loaded files
-	# ->this is default behavior
+			#get list of executable files
+			binaries = installedBinaries(path)
+		
 	else:
 
 		#dbg msg
